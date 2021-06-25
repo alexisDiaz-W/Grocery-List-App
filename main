@@ -1,0 +1,97 @@
+// Alexis Diaz ID223
+// A Vector of Names Assignment
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+using namespace std;
+
+
+int main() {
+    cout << "Welcome to the grocery list!\n";
+
+    vector<string> names;
+    names.push_back("Chicken");
+    names.push_back("Rice");
+    names.push_back("Beans");
+    names.push_back("Avocado");
+
+    vector<string>::iterator changeIter;
+    vector<string>::const_iterator readIter;
+    string userInput;
+
+    cout << "Your current grocery list: \n";
+    for (readIter = names.begin(); readIter != names.end(); ++readIter) {
+        cout << *readIter << endl;
+    }
+    cout << endl;
+    cout << "Use 'Add', 'Change', 'Remove', or 'List' to nagivate this application.\n";
+
+    do {
+        cout << "What would you like to do?\n";
+        cin >> userInput;
+
+        if(userInput == "Add" || userInput == "add") {
+            cout << "What item would you like to add?\n";
+            cin >> userInput;
+            names.push_back(userInput);
+            cout << "Added " << userInput << " to the list!\n";
+        }
+
+        else if(userInput == "Change" || userInput == "change") {
+            cout << "What item would you like to change?\n";
+            cin >> userInput;
+            // looking for the name(userInput)
+            for (changeIter = names.begin(); changeIter != names.end(); ++changeIter) {
+                if (*changeIter == userInput) {
+                    cout << "I've found the item, what would you like to change it to?\n";
+                    cin >> userInput;
+                    string temp = *changeIter; // this is the old value
+                    *changeIter = userInput;
+                    cout << temp << " has been changed to " << *changeIter << ".\n";
+                    break;      // the change has been made - break out of the for loop
+                } // closes if
+
+                if (changeIter + 1 == names.end()) {
+                    cout << "We didn't find that item!\n";
+                }
+            }
+
+        } else if (userInput == "Remove" || userInput == "remove") {
+            cout << ("What item would you like to remove?\n");
+            cin >> userInput;
+            for (changeIter = names.begin(); changeIter != names.end(); ++changeIter) {
+                if (*changeIter == userInput) {
+                    cout << "Removed " << *changeIter << " from the list!" << endl << endl; 
+                }
+            }
+            auto place = find(names.begin(), names.end(), userInput);
+                if (place == names.end()) {
+                    cout << "Sorry couldn't understand you!\n\n";
+                } else {
+                    auto index = distance(names.begin(), place);
+                    names.erase(names.begin() + index);
+                }
+
+        } else if (userInput == "List" || userInput == "list") {
+            cout << "\nCurrent Items: \n";
+            sort(names.begin(), names.end());
+            for (readIter = names.begin(); readIter != names.end(); ++readIter) {
+                cout << *readIter << endl;
+            }
+            cout << endl;
+            
+        } else {
+            cout << "Sorry, I couldn't understand you.\n";
+        }
+
+        if(userInput == "Quit" || userInput == "quit") {
+            cout << "Thanks for using the program!\n";
+            break;          // break out of the do while loop
+        }
+
+    } while(true);  // end of do while loop
+}
+
+// end of program
